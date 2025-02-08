@@ -67,11 +67,11 @@ const RegistrationForm: React.FC = () => {
     },
   });
 
-//   const [countries, setCountries] = useState<{ id: number; name: string }[]>(
-//     []
-//   );
-//   const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
-//   const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
+  //   const [countries, setCountries] = useState<{ id: number; name: string }[]>(
+  //     []
+  //   );
+  //   const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
+  //   const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
 
   //   useEffect(() => {
   //     async function fetchCountries() {
@@ -236,7 +236,7 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Array.isArray(countries) &&
+                    {/* {Array.isArray(countries) &&
                       countries.map((country) => (
                         <SelectItem
                           key={country.id}
@@ -244,7 +244,7 @@ const RegistrationForm: React.FC = () => {
                         >
                           {country.name}
                         </SelectItem>
-                      ))}
+                      ))} */}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -267,11 +267,11 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {roles.map((role) => (
+                    {/* {roles.map((role) => (
                       <SelectItem key={role.id} value={role?.id?.toString()}>
                         {role.name}
                       </SelectItem>
-                    ))}
+                    ))} */}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -294,14 +294,14 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {subjects.map((subject) => (
+                    {/* {subjects.map((subject) => (
                       <SelectItem
                         key={subject.id}
                         value={subject?.id?.toString()}
                       >
                         {subject.name}
                       </SelectItem>
-                    ))}
+                    ))} */}
                   </SelectContent>
                 </Select>
                 <FormMessage />
