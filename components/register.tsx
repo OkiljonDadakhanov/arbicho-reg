@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -67,11 +67,11 @@ const RegistrationForm: React.FC = () => {
     },
   });
 
-  const [countries, setCountries] = useState<{ id: number; name: string }[]>(
-    []
-  );
-  const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
-  const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
+//   const [countries, setCountries] = useState<{ id: number; name: string }[]>(
+//     []
+//   );
+//   const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
+//   const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
 
   //   useEffect(() => {
   //     async function fetchCountries() {
