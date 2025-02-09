@@ -1,6 +1,6 @@
 "use client";
 
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+const baseUrl = process.env.API_BASE_URL;
 
 const formSchema = z.object({
   full_name: z
@@ -67,71 +69,71 @@ const RegistrationForm: React.FC = () => {
     },
   });
 
-  //   const [countries, setCountries] = useState<{ id: number; name: string }[]>(
-  //     []
-  //   );
-  //   const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
-  //   const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
+  const [countries, setCountries] = useState<{ id: number; name: string }[]>(
+    []
+  );
+  const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
+  const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
 
-  //   useEffect(() => {
-  //     async function fetchCountries() {
-  //       try {
-  //         const res = await fetch("http://192.168.1.108:8080/api/countries/", {
-  //           method: "GET",
-  //           headers: {
-  //             Accept: "*/*",
-  //           },
-  //         });
-  //         if (!res.ok) throw new Error("Failed to fetch countries");
-  //         const data = await res.json();
-  //         setCountries(data);
-  //       } catch (error) {
-  //         console.error("Error fetching countries:", error);
-  //         toast.error("Failed to load countries");
-  //       }
-  //     }
-  //     fetchCountries();
-  //   }, []);
+  useEffect(() => {
+    async function fetchCountries() {
+      try {
+        const res = await fetch(`${baseUrl}api/countries/`, {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+          },
+        });
+        if (!res.ok) throw new Error("Failed to fetch countries");
+        const data = await res.json();
+        setCountries(data);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+        toast.error("Failed to load countries");
+      }
+    }
+    fetchCountries();
+  }, []);
 
-  //   useEffect(() => {
-  //     async function fetchRoles() {
-  //       try {
-  //         const res = await fetch("http://192.168.1.108:8080/api/roles/", {
-  //           method: "GET",
-  //           headers: {
-  //             Accept: "*/*",
-  //           },
-  //         });
-  //         if (!res.ok) throw new Error("Failed to fetch roles");
-  //         const data = await res.json();
-  //         setRoles(data);
-  //       } catch (error) {
-  //         console.error("Error fetching roles:", error);
-  //         toast.error("Failed to load roles");
-  //       }
-  //     }
-  //     fetchRoles();
-  //   }, []);
+  useEffect(() => {
+    async function fetchRoles() {
+      try {
+        const res = await fetch(`${baseUrl}api/roles/`, {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+          },
+        });
+        if (!res.ok) throw new Error("Failed to fetch roles");
+        const data = await res.json();
+        setRoles(data);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+        toast.error("Failed to load roles");
+      }
+    }
+    fetchRoles();
+  }, []);
 
-  //   useEffect(() => {
-  //     async function fetchSubjects() {
-  //       try {
-  //         const res = await fetch("http://192.168.1.108:8080/api/subjects/", {
-  //           method: "GET",
-  //           headers: {
-  //             Accept: "*/*",
-  //           },
-  //         });
-  //         if (!res.ok) throw new Error("Failed to fetch subjects");
-  //         const data = await res.json();
-  //         setSubjects(data);
-  //       } catch (error) {
-  //         console.error("Error fetching subjects:", error);
-  //         toast.error("Failed to load subjects");
-  //       }
-  //     }
-  //     fetchSubjects();
-  //   }, []);
+  useEffect(() => {
+    async function fetchSubjects() {
+      try {
+        const res = await fetch(`${baseUrl}api/subjects/`, {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+          },
+        });
+        if (!res.ok) throw new Error("Failed to fetch subjects");
+        const data = await res.json();
+        setSubjects(data);
+      } catch (error) {
+        console.error("Error fetching subjects:", error);
+        toast.error("Failed to load subjects");
+      }
+    }
+    fetchSubjects();
+  }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -150,16 +152,13 @@ const RegistrationForm: React.FC = () => {
         },
       };
 
-      const res = await fetch(
-        "http://192.168.1.108:8080/api/participation-requests/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const res = await fetch(`${baseUrl}api/participation-requests/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (res.ok) {
         toast.success("Registration submitted successfully!");
@@ -236,7 +235,7 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* {Array.isArray(countries) &&
+                    {Array.isArray(countries) &&
                       countries.map((country) => (
                         <SelectItem
                           key={country.id}
@@ -244,7 +243,7 @@ const RegistrationForm: React.FC = () => {
                         >
                           {country.name}
                         </SelectItem>
-                      ))} */}
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -267,11 +266,11 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* {roles.map((role) => (
+                    {roles.map((role) => (
                       <SelectItem key={role.id} value={role?.id?.toString()}>
                         {role.name}
                       </SelectItem>
-                    ))} */}
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -294,14 +293,14 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* {subjects.map((subject) => (
+                    {subjects.map((subject) => (
                       <SelectItem
                         key={subject.id}
                         value={subject?.id?.toString()}
                       >
                         {subject.name}
                       </SelectItem>
-                    ))} */}
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
