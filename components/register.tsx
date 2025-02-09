@@ -34,20 +34,20 @@ const formSchema = z.object({
   role: z.string().min(1, { message: "Please select a role." }),
   subject: z.string().min(1, { message: "Please select a subject." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  whatsapp_numer: z.string().regex(/^\+[1-9]\d{1,14}$/, {
+  whatsapp_number: z.string().regex(/^\+[1-9]\d{1,14}$/, {
     message:
       "Please enter a valid WhatsApp number starting with + (e.g., +1234567890)",
   }),
-  maths_students: z
+  number_of_students_maths: z
     .string()
     .min(1, { message: "Please select number of math students." }),
-  informatics_students: z
+  number_of_students_informatics: z
     .string()
     .min(1, { message: "Please select number of informatics students." }),
-  maths_team_leaders: z
+  number_of_leaders_maths: z
     .string()
     .min(1, { message: "Please select number of math team leaders." }),
-  informatics_team_leaders: z
+  number_of_leaders_informatics: z
     .string()
     .min(1, { message: "Please select number of informatics team leaders." }),
 });
@@ -61,11 +61,11 @@ const RegistrationForm: React.FC = () => {
       role: "",
       subject: "",
       email: "",
-      whatsapp_numer: "",
-      maths_students: "0",
-      informatics_students: "0",
-      maths_team_leaders: "0",
-      informatics_team_leaders: "0",
+      whatsapp_number: "",
+      number_of_students_maths: "0",
+      number_of_students_informatics: "0",
+      number_of_leaders_maths: "0",
+      number_of_leaders_informatics: "0",
     },
   });
 
@@ -139,17 +139,15 @@ const RegistrationForm: React.FC = () => {
     try {
       const formData = {
         full_name: values.full_name,
-        country: values.country,
-        role: values.role,
-        subject: values.subject,
+        country: parseInt(values.country),
+        role: parseInt(values.role),
+        subject: parseInt(values.subject),
         email: values.email,
-        whatsapp_numer: values.whatsapp_numer,
-        participants: {
-          maths_students: values.maths_students,
-          informatics_students: values.informatics_students,
-          maths_team_leaders: values.maths_team_leaders,
-          informatics_team_leaders: values.informatics_team_leaders,
-        },
+        whatsapp_number: values.whatsapp_number,
+        number_of_students_maths: values.number_of_students_maths,
+        number_of_students_informatics: values.number_of_students_informatics,
+        number_of_leaders_maths: values.number_of_leaders_maths,
+        number_of_leaders_informatics: values.number_of_leaders_informatics,
       };
 
       const res = await fetch(`${baseUrl}api/participation-requests/`, {
@@ -309,7 +307,7 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="maths_students"
+            name="number_of_students_maths"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>How many students are coming? (Maths)</FormLabel>
@@ -336,7 +334,7 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="informatics_students"
+            name="number_of_students_informatics"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
@@ -365,7 +363,7 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="maths_team_leaders"
+            name="number_of_leaders_maths"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>How many team leaders are coming? (Maths)</FormLabel>
@@ -392,7 +390,7 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="informatics_team_leaders"
+            name="number_of_leaders_informatics"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
@@ -438,7 +436,7 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="whatsapp_numer"
+            name="whatsapp_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>WhatsApp Number</FormLabel>
