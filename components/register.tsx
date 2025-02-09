@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+console.log("API: ", process.env.NEXT_PUBLIC_API_BASE_URL);
 
 const formSchema = z.object({
   full_name: z
