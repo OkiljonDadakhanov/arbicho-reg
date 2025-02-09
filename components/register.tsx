@@ -24,13 +24,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-console.log("API: ", process.env.NEXT_PUBLIC_API_BASE_URL);
+const baseUrl =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.olympcenter.uz/";
 
 const formSchema = z.object({
   full_name: z
     .string()
-    .min(2, { message: "Full name must be at least 2 characters." }),
+    .min(3, { message: "Full name must be at least 3 characters." }),
   country: z.string().min(1, { message: "Please select a country." }),
   role: z.string().min(1, { message: "Please select a role." }),
   subject: z.string().min(1, { message: "Please select a subject." }),
