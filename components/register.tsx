@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const baseUrl = "https://api.olympcenter.uz/";
 
 const formSchema = z.object({
   full_name: z
