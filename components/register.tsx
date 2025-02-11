@@ -6,6 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
+import logo from "@/public/logo/olympic.png";
+import khimio from "@/public/logo/logoBlue.png";
 import {
   Form,
   FormControl,
@@ -24,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const baseUrl = "https://api.olympcenter.uz/";
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const formSchema = z.object({
   full_name: z
@@ -157,9 +160,10 @@ const RegistrationForm: React.FC = () => {
         },
         body: JSON.stringify(formData),
       });
-
       if (res.ok) {
-        toast.success("Registration submitted successfully!");
+        toast.success(
+          "Thank you for your registration. You will receive a confirmation email from the organization shortly. Please allow a few moments for this correspondence to arrive."
+        );
         form.reset();
       } else {
         const errorData = await res.json();
@@ -199,9 +203,16 @@ const RegistrationForm: React.FC = () => {
       className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8"
     >
       <Toaster />
-      <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+
+      <div className="flex justify-between">
+        <Image src={khimio} alt="khimio" width={150} height={150} />
+        <Image src={logo} alt="logo" width={100} height={100} />
+      </div>
+
+      <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center mt-4">
         Registration Form
       </h2>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
@@ -228,7 +239,7 @@ const RegistrationForm: React.FC = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-300">
                       <SelectValue placeholder="Select your country" />
                     </SelectTrigger>
                   </FormControl>
