@@ -205,8 +205,20 @@ const RegistrationForm: React.FC = () => {
       <Toaster />
 
       <div className="flex justify-between">
-        <Image src={khimio} alt="khimio" width={150} height={150} />
-        <Image src={logo} alt="logo" width={100} height={100} />
+        <Image
+          src={khimio}
+          alt="khimio"
+          width={150}
+          height={150}
+          className="object-contain"
+        />
+        <Image
+          src={logo}
+          alt="logo"
+          width={150}
+          height={150}
+          className="object-contain"
+        />
       </div>
 
       <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center mt-4">
