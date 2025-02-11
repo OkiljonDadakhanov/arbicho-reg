@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/public/logo/olympic.png";
-import khimio from "@/public/logo/logoBlue.png";
+import khimio from "@/public/logo/logoblue.png";
 import {
   Form,
   FormControl,
