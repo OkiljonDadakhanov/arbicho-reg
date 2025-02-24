@@ -35,7 +35,6 @@ const formSchema = z.object({
     .min(3, { message: "Full name must be at least 3 characters." }),
   country: z.string().min(1, { message: "Please select a country." }),
   role: z.string().min(1, { message: "Please select a role." }),
-  subject: z.string().min(1, { message: "Please select a subject." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   whatsapp_number: z.string().regex(/^\+[1-9]\d{1,14}$/, {
     message:
@@ -62,7 +61,6 @@ const RegistrationForm: React.FC = () => {
       full_name: "",
       country: "",
       role: "",
-      subject: "",
       email: "",
       whatsapp_number: "",
       number_of_students_maths: "0",
@@ -76,7 +74,6 @@ const RegistrationForm: React.FC = () => {
     []
   );
   const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
-  const [subjects, setSubjects] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
     async function fetchCountries() {
@@ -118,33 +115,12 @@ const RegistrationForm: React.FC = () => {
     fetchRoles();
   }, []);
 
-  useEffect(() => {
-    async function fetchSubjects() {
-      try {
-        const res = await fetch(`${baseUrl}api/subjects/`, {
-          method: "GET",
-          headers: {
-            Accept: "*/*",
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch subjects");
-        const data = await res.json();
-        setSubjects(data);
-      } catch (error) {
-        console.error("Error fetching subjects:", error);
-        toast.error("Failed to load subjects");
-      }
-    }
-    fetchSubjects();
-  }, []);
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const formData = {
         full_name: values.full_name,
         country: parseInt(values.country),
         role: parseInt(values.role),
-        subject: parseInt(values.subject),
         email: values.email,
         whatsapp_number: values.whatsapp_number,
         number_of_students_maths: values.number_of_students_maths,
@@ -181,18 +157,6 @@ const RegistrationForm: React.FC = () => {
     { id: "2", value: "2", label: "2 students" },
     { id: "3", value: "3", label: "3 students" },
     { id: "4", value: "4", label: "4 students" },
-  ];
-
-  const studentCountsInfo = [
-    { id: "0", value: "0", label: "0 student" },
-    { id: "1", value: "1", label: "1 student" },
-    { id: "2", value: "2", label: "2 students" },
-  ];
-
-  const teamLeaders = [
-    { id: "0", value: "0", label: "0 team leader" },
-    { id: "1", value: "1", label: "1 team leader" },
-    { id: "2", value: "2", label: "2 team leaders" },
   ];
 
   return (
@@ -299,42 +263,13 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="subject"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Subject</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your subject" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {subjects.map((subject) => (
-                      <SelectItem
-                        key={subject.id}
-                        value={subject?.id?.toString()}
-                      >
-                        {subject.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="number_of_students_maths"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>How many students are coming? (Maths)</FormLabel>
+                <FormLabel>How many students are coming? </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -356,91 +291,7 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="number_of_students_informatics"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  How many students are coming? (Informatics)
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select number of students" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {studentCountsInfo.map((option) => (
-                      <SelectItem key={option.id} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="number_of_leaders_maths"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>How many team leaders are coming? (Maths)</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select number of team leaders" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {teamLeaders.map((option) => (
-                      <SelectItem key={option.id} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="number_of_leaders_informatics"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  How many team leaders are coming? (Informatics)
-                </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select number of team leaders" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {teamLeaders.map((option) => (
-                      <SelectItem key={option.id} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="email"
