@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Registration form",
   description:
-    "Al-Khwarizmi International Mathematics and Informatics Olympiad",
+    "Abu Reikhan Beruniy Chemistry Olympiad",
 };
 
 export default function RootLayout({

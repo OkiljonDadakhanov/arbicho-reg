@@ -40,18 +40,9 @@ const formSchema = z.object({
     message:
       "Please enter a valid WhatsApp number starting with + (e.g., +1234567890)",
   }),
-  number_of_students_maths: z
+  number_of_students: z
     .string()
-    .min(1, { message: "Please select number of math students." }),
-  number_of_students_informatics: z
-    .string()
-    .min(1, { message: "Please select number of informatics students." }),
-  number_of_leaders_maths: z
-    .string()
-    .min(1, { message: "Please select number of math team leaders." }),
-  number_of_leaders_informatics: z
-    .string()
-    .min(1, { message: "Please select number of informatics team leaders." }),
+    .min(1, { message: "Please select number of students." })
 });
 
 const RegistrationForm: React.FC = () => {
@@ -63,10 +54,7 @@ const RegistrationForm: React.FC = () => {
       role: "",
       email: "",
       whatsapp_number: "",
-      number_of_students_maths: "0",
-      number_of_students_informatics: "0",
-      number_of_leaders_maths: "0",
-      number_of_leaders_informatics: "0",
+      number_of_students: "0",
     },
   });
 
@@ -123,10 +111,7 @@ const RegistrationForm: React.FC = () => {
         role: parseInt(values.role),
         email: values.email,
         whatsapp_number: values.whatsapp_number,
-        number_of_students_maths: values.number_of_students_maths,
-        number_of_students_informatics: values.number_of_students_informatics,
-        number_of_leaders_maths: values.number_of_leaders_maths,
-        number_of_leaders_informatics: values.number_of_leaders_informatics,
+        number_of_students: values.number_of_students,
       };
 
       const res = await fetch(`${baseUrl}api/participation-requests/`, {
@@ -266,7 +251,7 @@ const RegistrationForm: React.FC = () => {
 
           <FormField
             control={form.control}
-            name="number_of_students_maths"
+            name="number_of_students"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>How many students are coming? </FormLabel>
