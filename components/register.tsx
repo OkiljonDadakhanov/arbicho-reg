@@ -171,8 +171,7 @@ const RegistrationForm: React.FC = () => {
       </div>
 
       <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center mt-4">
-        Registration Form for ARBIChO 2025(International Abu Reikhan Beruniy
-        Chemistry Olympiad)
+        Registration Form for Abu Rayhan Biruni International Chemistry Olympiad 2025
       </h2>
 
       <Form {...form}>
