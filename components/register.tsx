@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/public/logo/olympic.png";
-import khimio from "@/public/logo/logo.png";
+import beruni from "@/public/logo/logo.png";
 import {
   Form,
   FormControl,
@@ -155,8 +155,8 @@ const RegistrationForm: React.FC = () => {
 
       <div className="flex justify-between">
         <Image
-          src={khimio}
-          alt="khimio"
+          src={beruni}
+          alt="beruni"
           width={150}
           height={150}
           className="object-contain"
