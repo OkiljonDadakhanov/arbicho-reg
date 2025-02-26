@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const baseUrl = "https://api.olympcenter.uz/";
+const baseUrl = "https://api.olympcentre.uz/";
 
 const formSchema = z.object({
   full_name: z
@@ -42,7 +42,7 @@ const formSchema = z.object({
   }),
   number_of_students: z
     .string()
-    .min(1, { message: "Please select number of students." })
+    .min(1, { message: "Please select number of students." }),
 });
 
 const RegistrationForm: React.FC = () => {
@@ -171,7 +171,8 @@ const RegistrationForm: React.FC = () => {
       </div>
 
       <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center mt-4">
-        Registration Form for Abu Rayhan Biruni International Chemistry Olympiad 2025
+        Registration Form for Abu Rayhan Biruni International Chemistry Olympiad
+        2025
       </h2>
 
       <Form {...form}>
