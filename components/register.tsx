@@ -28,10 +28,10 @@ import {
 
 const baseUrl = "https://api.olympcentre.uz/";
 
-// Define the available roles
+// Define the available roles with correct values
 const roleOptions = [
-  { id: "1", value: "1", label: "Team Leader" },
-  { id: "2", value: "2", label: "Team Coordinator" },
+  { id: "1", value: "Team Leader", label: "Team Leader" },
+  { id: "2", value: "Team Coordinator", label: "Team Coordinator" },
 ];
 
 const formSchema = z.object({
@@ -41,11 +41,8 @@ const formSchema = z.object({
   country: z.string().min(1, { message: "Please select a country." }),
   role: z.string().min(1, { message: "Please select a role." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  whatsapp_number: z.string().regex(/^\+[1-9]\d{1,14}$/, {
-    message:
-      "Please enter a valid WhatsApp number starting with + (e.g., +1234567890)",
-  }),
-  number_of_students: z
+  phone_number: z.string().min(1, { message: "Please enter a valid phone number." }),
+  students_coming: z
     .string()
     .min(1, { message: "Please select number of students." }),
 });
@@ -65,8 +62,8 @@ const RegistrationForm: React.FC = () => {
       country: "",
       role: "",
       email: "",
-      whatsapp_number: "",
-      number_of_students: "0",
+      phone_number: "",
+      students_coming: "0",
     },
   });
 
@@ -99,14 +96,14 @@ const RegistrationForm: React.FC = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Keep all values as strings
+      // Format data according to required submission format
       const formData = {
         full_name: values.full_name,
-        country: values.country,
-        role: values.role,
+        country: parseInt(values.country), // Convert string to number
+        role: values.role, // Send the actual role text
         email: values.email,
-        whatsapp_number: values.whatsapp_number,
-        number_of_students: values.number_of_students,
+        phone_number: values.phone_number,
+        students_coming: values.students_coming,
       };
 
       const res = await fetch(`${baseUrl}api/participation-requests/`, {
@@ -116,6 +113,7 @@ const RegistrationForm: React.FC = () => {
         },
         body: JSON.stringify(formData),
       });
+      
       if (res.ok) {
         toast.success(
           "Thank you for your registration. You will receive a confirmation email from the organization shortly. Please allow a few moments for this correspondence to arrive."
@@ -131,7 +129,7 @@ const RegistrationForm: React.FC = () => {
     }
   }
 
-  const studentCountsMaths = [
+  const studentCounts = [
     { id: "0", value: "0", label: "0 student" },
     { id: "1", value: "1", label: "1 student" },
     { id: "2", value: "2", label: "2 students" },
@@ -246,7 +244,7 @@ const RegistrationForm: React.FC = () => {
 
           <FormField
             control={form.control}
-            name="number_of_students"
+            name="students_coming"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>How many students are coming? </FormLabel>
@@ -260,7 +258,7 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {studentCountsMaths.map((option) => (
+                    {studentCounts.map((option) => (
                       <SelectItem key={option.id} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -291,12 +289,12 @@ const RegistrationForm: React.FC = () => {
           />
           <FormField
             control={form.control}
-            name="whatsapp_number"
+            name="phone_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>WhatsApp Number</FormLabel>
+                <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="+1234567890" {...field} />
+                  <Input placeholder="934798949" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
