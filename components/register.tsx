@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import logo from "@/public/logo/olympic.png";
@@ -29,6 +28,12 @@ import {
 
 const baseUrl = "https://api.olympcentre.uz/";
 
+// Define the available roles
+const roleOptions = [
+  { id: "1", value: "1", label: "Team Leader" },
+  { id: "2", value: "2", label: "Team Coordinator" },
+];
+
 const formSchema = z.object({
   full_name: z
     .string()
@@ -46,6 +51,13 @@ const formSchema = z.object({
 });
 
 const RegistrationForm: React.FC = () => {
+  // Add client-side only rendering
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,7 +73,6 @@ const RegistrationForm: React.FC = () => {
   const [countries, setCountries] = useState<{ id: number; name: string }[]>(
     []
   );
-  const [roles, setRoles] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
     async function fetchCountries() {
@@ -80,35 +91,19 @@ const RegistrationForm: React.FC = () => {
         toast.error("Failed to load countries");
       }
     }
-    fetchCountries();
-  }, []);
 
-  useEffect(() => {
-    async function fetchRoles() {
-      try {
-        const res = await fetch(`${baseUrl}api/roles/`, {
-          method: "GET",
-          headers: {
-            Accept: "*/*",
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch roles");
-        const data = await res.json();
-        setRoles(data);
-      } catch (error) {
-        console.error("Error fetching roles:", error);
-        toast.error("Failed to load roles");
-      }
+    if (isClient) {
+      fetchCountries();
     }
-    fetchRoles();
-  }, []);
+  }, [isClient]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      // Keep all values as strings
       const formData = {
         full_name: values.full_name,
-        country: parseInt(values.country),
-        role: parseInt(values.role),
+        country: values.country,
+        role: values.role,
         email: values.email,
         whatsapp_number: values.whatsapp_number,
         number_of_students: values.number_of_students,
@@ -144,13 +139,13 @@ const RegistrationForm: React.FC = () => {
     { id: "4", value: "4", label: "4 students" },
   ];
 
+  // Return early if not client-side yet
+  if (!isClient) {
+    return null; // or a loading spinner
+  }
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8"
-    >
+    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
       <Toaster />
 
       <div className="flex justify-between">
@@ -210,7 +205,7 @@ const RegistrationForm: React.FC = () => {
                       countries.map((country) => (
                         <SelectItem
                           key={country.id}
-                          value={country?.id?.toString()}
+                          value={country.id.toString()}
                         >
                           {country.name}
                         </SelectItem>
@@ -237,9 +232,9 @@ const RegistrationForm: React.FC = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {roles.map((role) => (
-                      <SelectItem key={role.id} value={role?.id?.toString()}>
-                        {role.name}
+                    {roleOptions.map((role) => (
+                      <SelectItem key={role.id} value={role.value}>
+                        {role.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -315,7 +310,7 @@ const RegistrationForm: React.FC = () => {
           </Button>
         </form>
       </Form>
-    </motion.div>
+    </div>
   );
 };
 
